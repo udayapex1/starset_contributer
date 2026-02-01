@@ -11,6 +11,8 @@ import {
   Server
 } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { useAuth } from '../context/AuthContext';
+import { AuthProvider } from '../context/AuthContext';
 
 interface DashboardProps {
   onNavigate: (page: PageView) => void;
@@ -26,6 +28,9 @@ const mockChartData = [
 ];
 
 export const Dashboard: React.FC<DashboardProps> = ({ onNavigate }) => {
+  const { user } = useAuth();
+  console.log("User from Dashboard:", user.user_metadata
+);
   return (
     <div className="space-y-6 animate-in fade-in duration-500">
       
@@ -33,7 +38,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onNavigate }) => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-zinc-200 dark:border-white/10">
         <div>
           <h1 className="text-2xl font-bold text-zinc-900 dark:text-white tracking-tight">System Overview</h1>
-          <p className="text-zinc-500 text-sm mt-1">Contributor Node: Online • ID: 8829-X</p>
+          <p className="text-zinc-500 text-sm mt-1">Contributor  sssNode: Online • ID: 8829-X</p>
         </div>
         <div className="flex items-center gap-3">
           <Button variant="secondary" onClick={() => onNavigate('tasks')} size="sm" className="bg-white border-zinc-200 text-zinc-900 hover:bg-zinc-50 dark:bg-white/10 dark:text-white dark:border-white/10 dark:hover:bg-white/20">

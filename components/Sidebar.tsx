@@ -15,6 +15,8 @@ import {
 } from 'lucide-react';
 import { PageView, UserRole } from '../types';
 import { Logo } from './Logo';
+import { useAuth } from '../context/AuthContext';
+import { AuthProvider } from '../context/AuthContext';
 
 interface SidebarProps {
   currentPage: PageView;
@@ -39,7 +41,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   toggleTheme,
   userRole = 'contributor'
 }) => {
-  
+  const { user } = useAuth();
   const contributorNavItems = [
     { id: 'dashboard', label: 'Overview', icon: LayoutDashboard },
     { id: 'tasks', label: 'Data Tasks', icon: Database }, 
@@ -136,10 +138,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
               </div>
               <div className="flex flex-col">
                 <span className="text-sm font-bold text-zinc-900 dark:text-white">
-                  {userRole === 'admin' ? 'System Admin' : 'Jane Doe'}
+                  {user?.user_metadata?.full_name}
                 </span>
                 <span className="text-xs text-zinc-500">
-                   {userRole === 'admin' ? 'Level 5 Access' : 'ID: 8829-X'}
+                  {user?.user_metadata?.email}
                 </span>
               </div>
               <div className={`ml-auto h-2.5 w-2.5 rounded-full animate-pulse shadow-[0_0_8px] ${userRole === 'admin' ? 'bg-purple-500 shadow-purple-500/50' : 'bg-emerald-500 shadow-emerald-500/50'}`}></div>

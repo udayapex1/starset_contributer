@@ -13,6 +13,8 @@ import {
 import { Logo } from "../components/Logo";
 import { UserRole } from "../types";
 import { supabase } from "../supabaseClient";
+import { useAuth } from "../context/AuthContext"; 
+import { AuthProvider } from "../context/AuthContext";
 
 interface LoginProps {
   onLogin: (role: UserRole) => void;
@@ -33,8 +35,9 @@ export const Login: React.FC<LoginProps> = ({
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [user , setuser] = useState(null);
-
+  // const [user , setuser] = useState(null);
+ 
+  const { login , user} = useAuth();
   const [loginMode, setLoginMode] = useState<UserRole>("contributor");
   const isContributor = loginMode === "contributor";
 
@@ -43,12 +46,8 @@ const handleLogin = async (e: React.FormEvent) => {
   e.preventDefault();
   setError(null);
   setIsLoading(true);
-
-  const { data, error } = await supabase.auth.signInWithPassword({
-    email,
-    password,
-  });
-  setuser(data);
+  
+  await login(email, password);
  
 
   setIsLoading(false);
@@ -58,7 +57,6 @@ const handleLogin = async (e: React.FormEvent) => {
     return;
   }
 
-  const user = data.user;
   if (!user) {
     setError("Login failed");
     return;
